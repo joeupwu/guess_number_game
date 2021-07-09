@@ -1,0 +1,8 @@
+{
+    "helloWorld": "Hello World!",
+    "guessnumbergame": "Guess Number Game",
+    "startgame": "Start Game",
+    "@helloWorld": {
+      "description": "The conventional newborn programmer greeting"
+    }
+}
