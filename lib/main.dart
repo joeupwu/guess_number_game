@@ -1,11 +1,11 @@
 import 'dart:io' show Platform, exit;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'animate_text.dart';
-//import 'animateflipcounter.dart';
 import 'guess_number.dart';
 //import 'store/number_hint.dart';
 
@@ -33,9 +33,41 @@ class MyApp extends StatelessWidget {
             countryCode: 'TW'), // 'zh_Hant_TW'
       ],
       theme: ThemeData.light(),
-      home: GuessNumberPage(),
+      home: HomePage(),
     );
     return materialApp;
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar:
+          AppBar(title: Text(AppLocalizations.of(context)!.guessnumbergame)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(30),
+              child: Text(AppLocalizations.of(context)!.rules),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GuessNumberPage()),
+              ),
+              child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(AppLocalizations.of(context)!.startgame)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -55,6 +87,8 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
     ComputerGuessNumber(_numLen, Player.computer)
   ];
 
+  var msgTitle = List.filled(2, "");
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +97,9 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
 
   @override
   Widget build(BuildContext context) {
+    msgTitle[0] = AppLocalizations.of(context)!.yourturn;
+    msgTitle[1] = AppLocalizations.of(context)!.compturn;
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -108,15 +145,15 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
                 String msgTitle = '', msgContent = '';
                 bool result = false;
                 if (guessNumber[_turn.index].winState == WinState.wrongHint) {
-                  msgTitle = 'Warning!';
-                  msgContent = 'Incorrect hint, restart again?';
+                  msgTitle = AppLocalizations.of(context)!.warning;
+                  msgContent = AppLocalizations.of(context)!.incorrecthint;
                 } else {
                   if (_turn == Player.computer) {
-                    msgTitle = "You loss~";
-                    msgContent = "Don't give up, do you want to play again?";
+                    msgTitle = AppLocalizations.of(context)!.youloss;
+                    msgContent = AppLocalizations.of(context)!.playagain;
                   } else {
-                    msgTitle = 'You Win!';
-                    msgContent = "Do you want to play again?";
+                    msgTitle = AppLocalizations.of(context)!.youwin;
+                    msgContent = AppLocalizations.of(context)!.playagain;
                   }
                 }
                 result = (await _showDialog(msgTitle, msgContent))!;
@@ -127,7 +164,9 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
                     _turn = Player.human;
                   });
                 } else {
-                  if (Platform.isWindows || Platform.isLinux) {
+                  if (kIsWeb) {
+                    Navigator.pop(context);
+                  } else if (Platform.isWindows || Platform.isLinux) {
                     exit(0);
                   } else {
                     SystemNavigator.pop();
@@ -142,7 +181,7 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Your guess history"),
+                    Text(AppLocalizations.of(context)!.yourhistory),
                     numHintListView(
                       guessNumber[Player.human.index].numHintList,
                       guessNumber[Player.human.index].listKey,
@@ -152,7 +191,7 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Computer's guess history"),
+                    Text(AppLocalizations.of(context)!.comphistory),
                     numHintListView(
                       guessNumber[Player.computer.index].numHintList,
                       guessNumber[Player.computer.index].listKey,
@@ -225,8 +264,7 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
     return Column(key: key, children: <Widget>[
       Padding(
         padding: EdgeInsets.all(10),
-        child: Text(guessNumber[player.index].msgTitle,
-            style: TextStyle(fontSize: 24)),
+        child: Text(msgTitle[player.index], style: TextStyle(fontSize: 24)),
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -320,11 +358,11 @@ class _GuessNumberPageState extends State<GuessNumberPage> {
               content: Text(content),
               actions: <Widget>[
                 ElevatedButton(
-                  child: const Text('Yes'),
+                  child: Text(AppLocalizations.of(context)!.yes),
                   onPressed: () => Navigator.pop(context, true),
                 ),
                 ElevatedButton(
-                  child: const Text('No'),
+                  child: Text(AppLocalizations.of(context)!.no),
                   onPressed: () => Navigator.pop(context, false),
                 ),
               ],

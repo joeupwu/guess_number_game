@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Player { human, computer }
 enum WinState { unknown, win, wrongHint }
@@ -76,7 +77,6 @@ abstract class GuessNumber {
   void onInput(String val);
   void prepareNext();
 
-  String get msgTitle;
   String get strGuessNumber => _numHint.strNumber;
   String get strHint => _numHint.strHint;
   int get number =>
@@ -160,7 +160,6 @@ abstract class GuessNumber {
 class HumanGuessNumber extends GuessNumber {
   HumanGuessNumber(numLen, player) : super(numLen, player);
 
-  String get msgTitle => 'Your Turn. Please guess a number';
   void onBackspace() {
     if (_numHint.strNumber.length <= 0) return;
     _numHint.strNumber =
@@ -191,7 +190,6 @@ class HumanGuessNumber extends GuessNumber {
 class ComputerGuessNumber extends GuessNumber {
   ComputerGuessNumber(numLen, player) : super(numLen, player);
 
-  String get msgTitle => 'Computer Turn. Please enter your hint';
   void onBackspace() {
     if (_numHint.hintVal[1] != -1) {
       _numHint.hintVal[1] = -1;

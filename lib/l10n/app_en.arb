@@ -1,8 +1,18 @@
 {
-    "helloWorld": "Hello World!",
+    "rules": "Write down a four-digit number in your mind as the answer. The four numbers cannot be repeated. The computer will also think of a four-digit number, and you and the computer take turns guessing. Every time you guess a number, the person who counts the number will give a prompt based on the number, and the prompt will be presented in XAYB format until the guess is correct. Where X represents the number of numbers with the correct position, and Y represents the number of numbers with the correct number but not the correct position. For example, when the answer is 8123 and the guesser guesses 1052, the questioner must prompt 0A2B. Are you ready...",
     "guessnumbergame": "Guess Number Game",
     "startgame": "Start Game",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"
-    }
+    "warning": "Warning!",
+    "incorrecthint": "Incorrect hint, play again?",
+    "youloss": "You loss!",
+    "youwin": "You win!",
+    "playagain": "Do you want to play game?",
+    "yourhistory": "Your guess history",
+    "comphistory": "Computer's guess history",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "yourturn": "Your turn, Please guess a number",
+    "compturn": "Computer turn. Please enter your hint",
+    "helloWorld": "Hello World!"
 }
